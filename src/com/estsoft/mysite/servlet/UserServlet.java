@@ -16,18 +16,20 @@ import com.estsoft.web.action.ActionFactory;
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding( "UTF-8" );
-		
-		String actionName = request.getParameter( "a" );
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+
+		String actionName = request.getParameter("a");
 		ActionFactory actionFactory = new UserActionFactory();
-		Action action = actionFactory.getAction( actionName );
-		
+		Action action = actionFactory.getAction(actionName);
+
 		action.execute(request, response);
 	}
-	
+
 }
