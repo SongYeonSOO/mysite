@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.estsoft.db.MySQLWebDBConnection;
 import com.estsoft.mysite.dao.UserDao;
@@ -12,33 +13,29 @@ import com.estsoft.mysite.vo.UserVo;
 import com.estsoft.web.WebUtil;
 import com.estsoft.web.action.Action;
 
-public class JoinAction implements Action {
+public class ModifyAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// System.out.println("JoinAction:execute"); //debug시 유용함
-
-		// DAO처리
-		// WebUtil.forward(request, response,"/WEB-INF-/views/user/joinsuccess.jsp");
-		// -> 이렇게만 하면 refresh버튼 누르면 또 join하게 되버림 ; redirect가 필요하다!
 		
 		String name = request.getParameter("name");
-		String email = request.getParameter("email");
 		String passwd = request.getParameter("password");
 		String gender = request.getParameter("gender");
-	
+		Long no = Long.parseLong(request.getParameter("no"));
+		
 		UserVo vo = new UserVo();
 		vo.setName(name);
-		vo.setEmail(email);
 		vo.setPasswd(passwd);
 		vo.setGender(gender);
+		vo.setNo(no);
 		
 		UserDao dao = new UserDao(new MySQLWebDBConnection());
-		dao.insert(vo);
-
+		dao.Update(vo);
 		
-		WebUtil.redirect(request, response, "/mysite/user?a=joinsuccess");
+		HttpSession session = request.getSession();
+		UserVo uservo =(UserVo) session.getAttribute("authUser");
+		uservo.setName(name);
 		
+		WebUtil.redirect(request, response, "/mysite/main");
 	}
-
 }

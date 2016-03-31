@@ -13,7 +13,8 @@ public class JoinSuccessAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		WebUtil.forward(request, response, "/WEB-INF-/views/user/joinsuccess.jsp");
+		System.out.println("good");
+		WebUtil.forward(request, response, "/WEB-INF/views/user/joinsuccess.jsp");
 
 	}
 
