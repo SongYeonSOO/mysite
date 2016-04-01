@@ -22,12 +22,16 @@ public class ModifyAction implements Action {
 		String passwd = request.getParameter("password");
 		String gender = request.getParameter("gender");
 		Long no = Long.parseLong(request.getParameter("no"));
+		System.out.println("no:   "+no);
+		
+		
 		
 		UserVo vo = new UserVo();
-		vo.setName(name);
-		vo.setPasswd(passwd);
-		vo.setGender(gender);
-		vo.setNo(no);
+			
+			vo.setNo(no);
+			vo.setName(name);
+			vo.setGender(gender);
+			vo.setPasswd(passwd);
 		
 		UserDao dao = new UserDao(new MySQLWebDBConnection());
 		dao.Update(vo);

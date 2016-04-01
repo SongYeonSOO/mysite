@@ -10,43 +10,39 @@
 </head>
 <body>
 	<div id="container">
-		<div id="header">
-		<h1><a href="/mysite/main"></a></h1>
-			<h1>MySite</h1>
-			<ul>
-				<li><a href="">로그인</a><li>
-				<li><a href="">회원가입</a><li>
-				<li><a href="">회원정보수정</a><li>
-				<li><a href="">로그아웃</a><li>
-				<li>님 안녕하세요 ^^;</li>
-			</ul>
+		<c:import url="/WEB-INF/views/include/header.jsp">
+			<c:param name="header" value="" />
+		</c:import>
+		<div id="content">
+			<div id="board">
+				<form class="board-form" method="post" action="/mysite/board">
+					<input type="hidden" name="a" value="write">
+					<table class="tbl-ex">
+						<tr>
+							<th colspan="2">글쓰기</th>
+						</tr>
+						<tr>
+							<td class="label">제목</td>
+							<td><input type="text" name="title" value=""></td>
+						</tr>
+						<tr>
+							<td class="label">내용</td>
+							<td><textarea id="content" name="content"></textarea></td>
+						</tr>
+					</table>
+					<div class="bottom">
+						<a href="/mysite/board">취소</a> <input type="submit" value="등록">
+					</div>
+				</form>
+			</div>
 		</div>
-	<div id="content">
-		<div id="board">
-			<form class="board-form" method="post" action="/mysite/board">
-				<input type="hidden" name="a" value="write">
-				<table class="tbl-ex">
-					<tr>
-						<th colspan="2">글쓰기</th>
-					</tr>
-					<tr>
-						<td class="label">제목</td>
-						<td><input type="text" name="title" value=""></td>
-					</tr>
-					<tr>
-						<td class="label">내용</td>
-						<td><textarea id="content" name="content"></textarea></td>
-					</tr>
-				</table>
-				<div class="bottom">
-					<a href="/mysite/board">취소</a> <input type="submit" value="등록">
-				</div>
-			</form>
-		</div>
-	</div>
-	<jsp.include page="/WEB-INF/views/include/navigation.jsp"></jsp.include>
-	</div>
-	<jsp.include page="/WEB-INF/views/include/footer.jsp"></jsp.include>
+		<c:import url="/WEB-INF/views/include/navigation.jsp">
+			<c:param name="navigation" value="" />
+		</c:import>
+
+		<c:import url="/WEB-INF/views/include/footer.jsp">
+			<c:param name="footer" value="" />
+		</c:import>
 	</div>
 </body>
 </html>

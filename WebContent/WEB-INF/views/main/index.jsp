@@ -1,4 +1,6 @@
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 
 <!doctype html>
@@ -11,21 +13,28 @@
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp">
+			<c:param name="header" value="" />
+		</c:import>
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
 					<img id="profile" src="/mysite/assets/images/Pierre_de_Fermat.jpg">
-					<h2>안녕하세요. Fermat의 mysite에 오신 것을 환영합니다.</h2>
+					<h2>안녕하세요. Fermat의  mysite에 오신 것을 환영합니다.</h2>
 					<p>
-						전 잘났습니다. <br>
-						<br> <a href="#">방명록</a>에 글 남기기<br>
+						전 잘났습니다. <br> <br> <a href="#">방명록</a>에 글 남기기<br>
 					</p>
 				</div>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+
+		<c:import url="/WEB-INF/views/include/navigation.jsp">
+			<c:param name="navigation" value="" />
+		</c:import>
+
+		<c:import url="/WEB-INF/views/include/footer.jsp">
+			<c:param name="footer" value="" />
+		</c:import>
 	</div>
 </body>
 </html>

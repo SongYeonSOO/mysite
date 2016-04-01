@@ -1,24 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="/mysite/assets/css/board.css" rel="stylesheet" type="text/css">
+<link href="/mysite/assets/css/board.css" rel="stylesheet"
+	type="text/css">
 </head>
 <body>
-<div id="container">
-		<div id="header">
-		<h1><a href="/mysite/main"></a></h1>
-			<h1>MySite</h1>
-			<ul>
-				<li><a href="">로그인</a><li>
-				<li><a href="">회원가입</a><li>
-				<li><a href="">회원정보수정</a><li>
-				<li><a href="">로그아웃</a><li>
-				<li>님 안녕하세요 ^^;</li>
-			</ul>
-		</div>
+	<div id="container">
+		<c:import url="/WEB-INF/views/include/header.jsp">
+			<c:param name="header" value="" />
+		</c:import>
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="">
@@ -32,24 +26,26 @@
 						</tr>
 						<tr>
 							<td class="label">내용</td>
-							<td>
-								<textarea id="content" name="content">수정해야 할 글은 고대로 
+							<td><textarea id="content" name="content">수정해야 할 글은 고대로 
 이렇게 textarea에 뿌려야 합니다.
 개행문자 변경도 하지마세요.
 하하하하하
-즐건 코딩 되세요~~~~</textarea>
-							</td>
+즐건 코딩 되세요~~~~</textarea></td>
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="">취소</a>
-						<input type="submit" value="수정">
+						<a href="">취소</a> <input type="submit" value="수정">
 					</div>
-				</form>				
+				</form>
 			</div>
 		</div>
-					<jsp.include page ="/WEB-INF/views/include/navigation.jsp" ></jsp.include>
-			<jsp.include page="/WEB-INF/views/include/footer.jsp"></jsp.include>
+		<c:import url="/WEB-INF/views/include/navigation.jsp">
+			<c:param name="navigation" value="" />
+		</c:import>
+
+		<c:import url="/WEB-INF/views/include/footer.jsp">
+			<c:param name="footer" value="" />
+		</c:import>
 	</div>
 </body>
 </html>

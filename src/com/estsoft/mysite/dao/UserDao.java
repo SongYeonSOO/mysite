@@ -25,7 +25,6 @@ public class UserDao {
 	//
 	public UserVo get(UserVo vo) {
 		UserVo userVo = null;
-
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -59,9 +58,7 @@ public class UserDao {
 			    userVo.setEmail(email);
 			    userVo.setPasswd(passwd);
 			    userVo.setGender(gender);
-			    
-				
-			    
+			        
 			}
 			
 		} catch (SQLException e) {
@@ -100,15 +97,82 @@ public class UserDao {
 			}
 
 		}
-		System.out.println("DAO : " + userVo);
 		return userVo;
 
 	}
 
-//	public UserVo get(Long no) {
-//		return null;
-//
-//	}
+	public UserVo get(Long no) {
+		UserVo userVo = null;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = dbConnection.getConnection();
+
+			// ?: name, email, passwd, gender
+		
+			String sql = "SELECT name, gender FROM user WHERE no=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, no);
+
+			rs = pstmt.executeQuery();
+
+			if(rs.next()){
+
+				String name = rs.getString(1);
+				String gender = rs.getString(2);
+
+			    userVo = new UserVo();
+			    userVo.setNo(no);
+			    userVo.setName(name);
+			    userVo.setGender(gender);
+			    
+
+			    
+			}
+			
+		} catch (SQLException e) {
+			
+			System.out.println("error:"+e);
+			e.printStackTrace();
+			
+			return null;
+			//여기서 return을 만나도 finally 진행가능
+			
+		} finally {
+			if(rs != null){
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+		}
+		return userVo;
+
+	}
 	public void Update(UserVo vo){
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -116,14 +180,26 @@ public class UserDao {
 			conn = dbConnection.getConnection();
 
 			// ?: name, email, passwd, gender
-			String sql = "UPDATE user SET name=?, passwd=password(?), gender=? WHERE no=?";
+			
+			
+			if("".equals(vo.getPasswd())){
+				String sql = "UPDATE user SET name=?, gender=? WHERE no=?";
 
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getPasswd());
-			pstmt.setString(3, vo.getGender());
-			pstmt.setLong(4, vo.getNo());
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, vo.getName());
+				pstmt.setString(2, vo.getGender());
+				pstmt.setLong(3, vo.getNo());
+			}else{
+				String sql = "UPDATE user SET name=?, passwd=password(?), gender=? WHERE no=?";
 
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, vo.getName());
+				pstmt.setString(2, vo.getPasswd());
+				pstmt.setString(3, vo.getGender());
+				pstmt.setLong(4, vo.getNo());
+				
+
+			}
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {

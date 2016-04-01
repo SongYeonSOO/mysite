@@ -21,11 +21,10 @@ public class ModifyFormAction implements Action {
 		UserVo uservo = (UserVo)session.getAttribute("authUser");
 		System.out.println("session : " + uservo);
 		UserDao dao = new UserDao(new MySQLWebDBConnection());
-		UserVo userVo = dao.get(uservo);
+		UserVo userVo = dao.get(uservo.getNo());
 		
-		System.out.println("modyform : " + userVo);
-		
-		request.setAttribute("authUser1", userVo);
+		System.out.println("modify:"+userVo);
+		request.setAttribute("authUser", userVo);
 		
 		WebUtil.forward(request, response, "/WEB-INF/views/user/modifyform.jsp");
 	}

@@ -26,8 +26,8 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-//			System.out.println( "here" );
-//		WebUtil.forward(request, response, "WEB-INF/views/main/index.jsp");
+		// System.out.println( "here" );
+		// WebUtil.forward(request, response, "WEB-INF/views/main/index.jsp");
 		String actionName = request.getParameter("a");
 		ActionFactory actionFactory = new MainActionFactory();
 		Action action = actionFactory.getAction(actionName);
