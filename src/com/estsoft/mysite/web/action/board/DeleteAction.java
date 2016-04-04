@@ -26,9 +26,12 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.estsoft.db.MySQLWebDBConnection;
 import com.estsoft.mysite.dao.BoardDao;
 import com.estsoft.mysite.vo.BoardVo;
+import com.estsoft.mysite.vo.UserVo;
 import com.estsoft.web.WebUtil;
 import com.estsoft.web.action.Action;
 import com.mysql.jdbc.Buffer;
@@ -52,18 +55,24 @@ public class DeleteAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/list.jsp");
-		Long no = Long.parseLong(request.getParameter("no"));
-		Long userno = Long.parseLong(request.getParameter("user_no"));
+		HttpSession session = request.getSession();
+		// 로그인된 회원정보 받아오기
+		UserVo uservo = (UserVo) session.getAttribute("authUser");
+		if (uservo != null) {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/list.jsp");
 
-		BoardVo vo = new BoardVo();
-		vo.setNo(no);
-		vo.setUser_no(userno);
-		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
+			Long no = Long.parseLong(request.getParameter("no"));
+			Long user_no = uservo.getNo();
 
-		dao.delete(vo);
+			BoardVo vo = new BoardVo();
+			vo.setNo(no);
+			vo.setUser_no(user_no);
+			BoardDao dao = new BoardDao(new MySQLWebDBConnection());
 
+			dao.delete(vo);
+		}
 		WebUtil.redirect(request, response, "/mysite/board");
+
 	}
 
 }

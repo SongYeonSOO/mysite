@@ -17,13 +17,8 @@ public class BoardActionFactory extends ActionFactory {
 
 			// to use write.jsp in board folder
 			action = new WriteAction();
-		} 
-//		else if ("viewform".equals(actionName)) {
-//
-//			action = new ViewFormAction();
-//
-//		} 
-		else if ("view".equals(actionName)) {
+			
+		} else if ("view".equals(actionName)) {
 
 			// to use view.jsp in board folder
 			action = new ViewAction();
@@ -31,15 +26,16 @@ public class BoardActionFactory extends ActionFactory {
 		} else if ("boardmodifyform".equals(actionName)) {
 
 			action = new BoardModifyFormAction();
+			
 		} else if ("boardmodify".equals(actionName)) {
 
 			// to use modify.jsp in board folder
 			action = new BoardModifyAction();
 
-		} else if("delete".equals(actionName)){
+		} else if ("delete".equals(actionName)) {
 			action = new DeleteAction();
-			
-		}else {
+
+		} else {
 			// show list of board
 			action = new ListAction();
 		}

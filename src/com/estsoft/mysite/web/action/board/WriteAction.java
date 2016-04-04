@@ -25,26 +25,20 @@ public class WriteAction implements Action {
 		// 로그인된 회원정보 받아오기
 		UserVo uservo = (UserVo) session.getAttribute("authUser");
 
-		System.out.println("UserVo: "+uservo);
-		//로그인 하지 않은 사용자
-		if (uservo == null) {
-			WebUtil.redirect(request, response, "/mysite/board");
-			return;
+		if (uservo != null) {
+			// write execute!
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+
+			BoardVo vo = new BoardVo();
+			vo.setTitle(title);
+			vo.setContent(content);
+			vo.setUser_no(uservo.getNo());
+			vo.setUser_name(uservo.getName());
+			System.out.println("BoardVo: " + vo);
+			BoardDao dao = new BoardDao(new MySQLWebDBConnection());
+			dao.insert(vo);
 		}
-
-		// write execute!		
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
-
-		BoardVo vo = new BoardVo();
-		vo.setTitle(title);
-		vo.setContent(content);
-		vo.setUser_no(uservo.getNo());
-		vo.setUser_name(uservo.getName());
-		System.out.println("BoardVo: "+vo);
-		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
-		dao.insert(vo);
-
 		WebUtil.redirect(request, response, "/mysite/board");
 	}
 

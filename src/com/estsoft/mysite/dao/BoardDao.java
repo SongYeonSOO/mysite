@@ -403,7 +403,7 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setLong(1, vo.getNo());
-			pstmt.setLong(1, vo.getUser_no());
+			pstmt.setLong(2, vo.getUser_no());
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
