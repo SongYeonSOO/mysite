@@ -25,7 +25,6 @@ public class ViewAction implements Action {
 		BoardVo vo = dao.view(no);
 
 		request.setAttribute("vo", vo);
-//		WebUtil.redirect(request, response, "/mysite/board?a=viewform");
 		WebUtil.forward(request, response, "/WEB-INF/views/board/view.jsp");
 	}
 

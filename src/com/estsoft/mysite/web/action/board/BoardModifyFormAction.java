@@ -13,7 +13,10 @@ public class BoardModifyFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		
+		
+		request.setAttribute("vo", vo);
 		WebUtil.forward(request, response, "/WEB-INF/views/board/modify.jsp");
 
 	}

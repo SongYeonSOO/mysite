@@ -354,14 +354,14 @@ public class BoardDao {
 			conn = dbConnection.getConnection();
 
 			// 게시글 수정
-			String sql = "UPDATE board SET title=?, content=? WHERE user_no=? AND no= ?";
+			String sql = "UPDATE board SET title=?, content=? WHERE no=? AND user_no= ?";
 
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContent());
-			pstmt.setLong(3, vo.getUser_no());
-			pstmt.setLong(4, vo.getNo());
+			pstmt.setLong(3, vo.getNo());
+			pstmt.setLong(4, vo.getUser_no());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
