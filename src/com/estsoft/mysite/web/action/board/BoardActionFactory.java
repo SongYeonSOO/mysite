@@ -17,11 +17,13 @@ public class BoardActionFactory extends ActionFactory {
 
 			// to use write.jsp in board folder
 			action = new WriteAction();
-		} else if ("viewform".equals(actionName)) {
-
-			action = new ViewFormAction();
-
-		} else if ("view".equals(actionName)) {
+		} 
+//		else if ("viewform".equals(actionName)) {
+//
+//			action = new ViewFormAction();
+//
+//		} 
+		else if ("view".equals(actionName)) {
 
 			// to use view.jsp in board folder
 			action = new ViewAction();

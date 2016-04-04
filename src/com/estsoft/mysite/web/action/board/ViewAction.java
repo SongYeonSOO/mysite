@@ -18,19 +18,15 @@ public class ViewAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// write execute!		
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
+		Long no = Long.parseLong(request.getParameter("no"));
 
-		BoardVo vo = new BoardVo();
-		vo.setTitle(title);
-		vo.setContent(content);
 
 		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
-		dao.view(vo);
-		
-		WebUtil.redirect(request, response, "/mysite/board");
+		BoardVo vo = dao.view(no);
 
-
+		request.setAttribute("vo", vo);
+//		WebUtil.redirect(request, response, "/mysite/board?a=viewform");
+		WebUtil.forward(request, response, "/WEB-INF/views/board/view.jsp");
 	}
 
 }

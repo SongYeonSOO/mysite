@@ -25,9 +25,10 @@ public class WriteAction implements Action {
 		// 로그인된 회원정보 받아오기
 		UserVo uservo = (UserVo) session.getAttribute("authUser");
 
+		System.out.println("UserVo: "+uservo);
 		//로그인 하지 않은 사용자
 		if (uservo == null) {
-			WebUtil.redirect(request, response, "/mysite/board?a=viewform");
+			WebUtil.redirect(request, response, "/mysite/board");
 			return;
 		}
 
@@ -38,14 +39,13 @@ public class WriteAction implements Action {
 		BoardVo vo = new BoardVo();
 		vo.setTitle(title);
 		vo.setContent(content);
-		vo.setUser_name(uservo.getName());
 		vo.setUser_no(uservo.getNo());
-
+		vo.setUser_name(uservo.getName());
+		System.out.println("BoardVo: "+vo);
 		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
 		dao.insert(vo);
 
 		WebUtil.redirect(request, response, "/mysite/board");
-				//?a");
 	}
 
 }

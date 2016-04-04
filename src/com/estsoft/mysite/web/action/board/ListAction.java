@@ -3,6 +3,7 @@ package com.estsoft.mysite.web.action.board;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,17 +18,18 @@ public class ListAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String title = request.getParameter("title");
-//		String content = request.getParameter("content");
-//
-//		BoardVo vo = new BoardVo();
-//		vo.setTitle(title);
-//		vo.setContent(content);
-//
-//		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
-//		List<BoardVo> boardlist = dao.SearchList(vo.getTitle(),vo.getContent());
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+
+		BoardVo vo = new BoardVo();
+		vo.setTitle(title);
+		vo.setContent(content);
+
+		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
+		List<BoardVo> list = dao.SearchList(vo.getTitle(),vo.getContent());
 		//이 리스트가 search 결과다
 		
+		request.setAttribute("list", list);
 		WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
 	}
 

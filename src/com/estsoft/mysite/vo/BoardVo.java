@@ -7,9 +7,9 @@ public class BoardVo {
 	private String reg_date;
 	private Long user_no;
 	private Long group_no;
-	private Long order_no=1L;
-	private Long depth=0L;
-	private Long hit=0L;
+	private Long order_no;
+	private Long depth;
+	private Long hit;
 	private String user_name;
 	
 	public Long getNo() {

@@ -32,32 +32,21 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<tr>
-						<td>3</td>
-						<td><a href="/mysite/board?a=viewform&no=3">세 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-11 12:04:20</td>
-						<td><a href="/mysite/board?a=delete&no=3" class="del">삭제</a></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td><a href="/mysite/board?a=viewform&no=2">두 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-02 12:04:12</td>
-						<td><a href="/mysite/board?a=delete&no=2" class="del">삭제</a></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td><a href="/mysite/board?a=viewform&no=1">첫 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-09-25 07:24:32</td>
-						<td><a href="/mysite/board?a=delete&no=1" class="del">삭제</a></td>
-					</tr>
+
+					<c:set var="count" value="${fn.length(list) }" />
+					<c:forEach items="${list}" var="vo" varStatus="status">
+						<tr>
+							<td>${status.index}</td>
+							<td><a href="/mysite/board?a=view&no=${vo.no}">${vo.title}</a></td>
+							<td>${vo.user_name}</td>
+							<td>${vo.hit}</td>
+							<td>${vo.reg_date}</td>
+							<td><a href="/mysite/board?a=delete&no=${vo.no}" class="del">삭제</a></td>
+						</tr>
+						
+						</c:forEach>
 				</table>
-				
+
 				<!-- page 부분 복사  select부분 해결해야해!!!!!!-->
 				<div class="pager">
 					<ul>
@@ -70,7 +59,7 @@
 						<li><a href="">▶</a></li>
 					</ul>
 				</div>
-				
+
 				<div class="bottom">
 					<a href="/mysite/board?a=writeform" id="new-book">글쓰기</a>
 				</div>

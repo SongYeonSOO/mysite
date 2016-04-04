@@ -20,8 +20,8 @@ public class BoardDao {
 		this.dbConnection = dbConnection;
 	}
 
-	// 게시판 보자
-	public BoardVo view(BoardVo vo) {
+	// 게시글 보자
+	public BoardVo view(Long no) {
 		BoardVo boardVo = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -33,28 +33,27 @@ public class BoardDao {
 			// 검색기능까지 한번에 해결하자 . content의 내용에 뭐가 들었을까!
 			String sql = "SELECT b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit FROM board b,user u WHERE b.no = ? and b.user_no = u.no";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, vo.getNo());
+			pstmt.setLong(1, no);
 
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
 				// System.out.println("BoardDao: ok");
-				Long no = rs.getLong(1);
-				String title = rs.getString(2);
-				String content = rs.getString(3);
-				String reg_date = rs.getString(4);
-				Long user_no = rs.getLong(5);
-				Long group_no = rs.getLong(6);
-				Long order_no = rs.getLong(7);
-				Long depth = rs.getLong(8);
-				Long hit = rs.getLong(9);
+				String title = rs.getString(1);
+				String content = rs.getString(2);
+				String reg_date = rs.getString(3);
+				String user_name = rs.getString(4);
+				Long group_no = rs.getLong(5);
+				Long order_no = rs.getLong(6);
+				Long depth = rs.getLong(7);
+				Long hit = rs.getLong(8);
 
 				boardVo = new BoardVo();
 				boardVo.setNo(no);
 				boardVo.setTitle(title);
 				boardVo.setContent(content);
 				boardVo.setReg_date(reg_date);
-				boardVo.setUser_no(user_no);
+				boardVo.setUser_name(user_name);
 				boardVo.setGroup_no(group_no);
 				boardVo.setOrder_no(order_no);
 				boardVo.setDepth(depth);
@@ -151,7 +150,7 @@ public class BoardDao {
 		try {
 			conn = dbConnection.getConnection();
 
-			if (title1 == null && content1 == null) {
+//			if (title1 == null && content1 == null) {
 				String sql = "SELECT b.no, b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit FROM board b,user u WHERE b.user_no = u.no";
 				pstmt = conn.prepareStatement(sql);
 
@@ -162,7 +161,7 @@ public class BoardDao {
 					String title = rs.getString(2);
 					String content = rs.getString(3);
 					String reg_date = rs.getString(4);
-					Long user_no = rs.getLong(5);
+					String user_name = rs.getString(5);
 					Long group_no = rs.getLong(6);
 					Long order_no = rs.getLong(7);
 					Long depth = rs.getLong(8);
@@ -173,7 +172,7 @@ public class BoardDao {
 					boardVo.setTitle(title);
 					boardVo.setContent(content);
 					boardVo.setReg_date(reg_date);
-					boardVo.setUser_no(user_no);
+					boardVo.setUser_name(user_name);
 					boardVo.setGroup_no(group_no);
 					boardVo.setOrder_no(order_no);
 					boardVo.setDepth(depth);
@@ -182,40 +181,41 @@ public class BoardDao {
 					list.add(boardVo);
 
 				}
-			} else {
-				String sql = "SELECT b.no, b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit FROM board b,user u WHERE  title like %?% OR content like %?% AND b.user_no = u.no";
-
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, title1);
-				pstmt.setString(2, content1);
-
-				rs = pstmt.executeQuery(sql);
-
-				while (rs.next()) {
-					Long no = rs.getLong(1);
-					String title = rs.getString(2);
-					String content = rs.getString(3);
-					String reg_date = rs.getString(4);
-					Long user_no = rs.getLong(5);
-					Long group_no = rs.getLong(6);
-					Long order_no = rs.getLong(7);
-					Long depth = rs.getLong(8);
-					Long hit = rs.getLong(9);
-
-					boardVo = new BoardVo();
-					boardVo.setNo(no);
-					boardVo.setTitle(title);
-					boardVo.setContent(content);
-					boardVo.setReg_date(reg_date);
-					boardVo.setUser_no(user_no);
-					boardVo.setGroup_no(group_no);
-					boardVo.setOrder_no(order_no);
-					boardVo.setDepth(depth);
-					boardVo.setHit(hit);
-
-					list.add(boardVo);
-				}
-			}
+//			} 
+//			else {
+//				String sql = "SELECT b.no, b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit FROM board b,user u WHERE  title like %?% OR content like %?% AND b.user_no = u.no";
+//
+//				pstmt = conn.prepareStatement(sql);
+//				pstmt.setString(1, title1);
+//				pstmt.setString(2, content1);
+//
+//				rs = pstmt.executeQuery(sql);
+//
+//				while (rs.next()) {
+//					Long no = rs.getLong(1);
+//					String title = rs.getString(2);
+//					String content = rs.getString(3);
+//					String reg_date = rs.getString(4);
+//					Long user_no = rs.getLong(5);
+//					Long group_no = rs.getLong(6);
+//					Long order_no = rs.getLong(7);
+//					Long depth = rs.getLong(8);
+//					Long hit = rs.getLong(9);
+//
+//					boardVo = new BoardVo();
+//					boardVo.setNo(no);
+//					boardVo.setTitle(title);
+//					boardVo.setContent(content);
+//					boardVo.setReg_date(reg_date);
+//					boardVo.setUser_no(user_no);
+//					boardVo.setGroup_no(group_no);
+//					boardVo.setOrder_no(order_no);
+//					boardVo.setDepth(depth);
+//					boardVo.setHit(hit);
+//
+//					list.add(boardVo);
+//				}
+//}		
 		} catch (SQLException ex) {
 			System.out.println("error:" + ex);
 		} finally {
@@ -282,7 +282,7 @@ public class BoardDao {
 		}
 	}
 
-	// 새 게시글 삽입(원글, 답글 모두 이용?)
+	// 새 게시글 삽입(원글, 답글 모두 이용?)  content랑 title, user_no 받아옴
 	public void insert(BoardVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -295,9 +295,9 @@ public class BoardDao {
 			//****************************check!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 			
-			if(vo.getOrder_no() == 1){
+//			if(vo.getOrder_no() == null){
 				//새글
-			String sql = "INSERT INTO board VALUES(null, ?, ?, DATE_FORMAT(reg_date, '%Y-%m-%d %h %i %s'), ?, MAX(group_no)+1, 1, 0, 0)";
+			String sql = "INSERT INTO board VALUES(null, ?, ?, now(), ?, (select ifnull( max( group_no ), 0 ) + 1  from board as b), 1, 0, 1)";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getTitle());
@@ -305,19 +305,19 @@ public class BoardDao {
 			pstmt.setLong(3, vo.getUser_no());
 
 
-			}else{
-				//답글
-				String sql = "INSERT INTO board VALUES(null, ?, ?, DATE_FORMAT(reg_date, '%Y-%m-%d %h %i %s'), ?, ?, ?, ?, 0)";
-
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, vo.getTitle());
-				pstmt.setString(2, vo.getContent());
-				pstmt.setLong(3, vo.getUser_no());
-				pstmt.setLong(4, vo.getGroup_no());
-				pstmt.setLong(5, vo.getOrder_no());
-				pstmt.setLong(6, vo.getDepth());
-
-			}
+//			}else{
+//				//답글
+//				String sql = "INSERT INTO board VALUES(null, ?, ?, now(), ?, ?, ?, ?, 1)";
+//
+//				pstmt = conn.prepareStatement(sql);
+//				pstmt.setString(1, vo.getTitle());
+//				pstmt.setString(2, vo.getContent());
+//				pstmt.setLong(3, vo.getUser_no());
+//				pstmt.setLong(4, vo.getGroup_no());
+//				pstmt.setLong(5, vo.getOrder_no());
+//				pstmt.setLong(6, vo.getDepth());
+//
+//			}
 
 			pstmt.executeUpdate();
 
