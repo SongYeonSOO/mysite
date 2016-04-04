@@ -19,10 +19,10 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
-					<img id="profile" src="/mysite/assets/images/Pierre_de_Fermat.jpg">
-					<h2>안녕하세요. Fermat의  mysite에 오신 것을 환영합니다.</h2>
+					<img id="profile" src="/mysite/assets/images/FullSizeRender.jpg">
+					<h2>안녕하세요. 송연수의  mysite에 오신 것을 환영합니다.</h2>
 					<p>
-						전 잘났습니다. <br> <br> <a href="#">방명록</a>에 글 남기기<br>
+						돈까스먹고싶다. <br> <br> <a href="#">방명록</a>에 글 남기기<br>
 					</p>
 				</div>
 			</div>

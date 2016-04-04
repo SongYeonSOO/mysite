@@ -3,7 +3,7 @@
 
 <div id="navigation">
 	<ul>
-		<li><a href="/mysite/main">Fermat</a></li>
+		<li><a href="/mysite/main">YeonSoo Song</a></li>
 		<li><a href="/mysite/gustbook">방명록</a></li>
 		<li><a href="/mysite/board">게시판</a></li>
 	</ul>

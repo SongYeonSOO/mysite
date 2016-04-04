@@ -28,7 +28,7 @@ public class ListAction implements Action {
 //		List<BoardVo> boardlist = dao.SearchList(vo.getTitle(),vo.getContent());
 		//이 리스트가 search 결과다
 		
-		WebUtil.redirect(request, response, "/mysite/board");
+		WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
 	}
 
 }

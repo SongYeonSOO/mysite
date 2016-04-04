@@ -398,10 +398,11 @@ public class BoardDao {
 			conn = dbConnection.getConnection();
 
 			// 게시글 수정
-			String sql = "DELETE FROM board WHERE user_no= ?";
+			String sql = "DELETE FROM board WHERE no= ? And user_no = ?";
 
 			pstmt = conn.prepareStatement(sql);
 
+			pstmt.setLong(1, vo.getNo());
 			pstmt.setLong(1, vo.getUser_no());
 			pstmt.executeUpdate();
 

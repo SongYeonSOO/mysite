@@ -27,7 +27,7 @@ public class WriteAction implements Action {
 
 		//로그인 하지 않은 사용자
 		if (uservo == null) {
-			WebUtil.redirect(request, response, "/mysite/board?a=view");
+			WebUtil.redirect(request, response, "/mysite/board?a=viewform");
 			return;
 		}
 

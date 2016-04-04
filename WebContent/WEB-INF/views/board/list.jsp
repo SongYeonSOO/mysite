@@ -1,3 +1,7 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -30,27 +34,27 @@
 					</tr>
 					<tr>
 						<td>3</td>
-						<td><a href="">세 번째 글입니다.</a></td>
+						<td><a href="/mysite/board?a=viewform&no=3">세 번째 글입니다.</a></td>
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-10-11 12:04:20</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td><a href="/mysite/board?a=delete&no=3" class="del">삭제</a></td>
 					</tr>
 					<tr>
 						<td>2</td>
-						<td><a href="">두 번째 글입니다.</a></td>
+						<td><a href="/mysite/board?a=viewform&no=2">두 번째 글입니다.</a></td>
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-10-02 12:04:12</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td><a href="/mysite/board?a=delete&no=2" class="del">삭제</a></td>
 					</tr>
 					<tr>
 						<td>1</td>
-						<td><a href="">첫 번째 글입니다.</a></td>
+						<td><a href="/mysite/board?a=viewform&no=1">첫 번째 글입니다.</a></td>
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-09-25 07:24:32</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td><a href="/mysite/board?a=delete&no=1" class="del">삭제</a></td>
 					</tr>
 				</table>
 				
@@ -68,7 +72,7 @@
 				</div>
 				
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
+					<a href="/mysite/board?a=writeform" id="new-book">글쓰기</a>
 				</div>
 			</div>
 		</div>

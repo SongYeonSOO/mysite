@@ -34,7 +34,10 @@ public class BoardActionFactory extends ActionFactory {
 			// to use modify.jsp in board folder
 			action = new BoardModifyAction();
 
-		} else {
+		} else if("delete".equals(actionName)){
+			action = new DeleteAction();
+			
+		}else {
 			// show list of board
 			action = new ListAction();
 		}
