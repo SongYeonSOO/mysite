@@ -17,10 +17,78 @@ public class UserDao {
 
 	// secutiry : authentication + permission(root mode etc...)
 	// authentication(합당한 사람이냐!)
-//	public UserVo get(String email, String password) {
-//		return null;
-//
-//	}
+	public UserVo get(String email, String password) {
+		UserVo userVo = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = dbConnection.getConnection();
+
+			// ?: email, passwd
+			String sql = "SELECT no, name, email, passwd, gender FROM user WHERE email=? AND passwd=password(?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
+			pstmt.setString(2, password);
+
+			rs = pstmt.executeQuery();
+
+			if(rs.next()){
+				System.out.println("Authentication ok");
+				Long no = rs.getLong(1);
+				String name = rs.getString(2);
+				String gender = rs.getString(5);
+
+			
+			    userVo = new UserVo();
+			    userVo.setNo(no);
+			    userVo.setName(name);
+			    userVo.setEmail(email);
+			    userVo.setPasswd(password);
+			    userVo.setGender(gender);
+			        
+			}
+			
+		} catch (SQLException e) {
+			
+			System.out.println("error:"+e);
+			e.printStackTrace();
+			return null;
+			//여기서 return을 만나도 finally 진행가능
+			
+		} finally {
+			if(rs != null){
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+		}
+		return userVo;
+
+
+	}
 
 	//
 	public UserVo get(UserVo vo) {

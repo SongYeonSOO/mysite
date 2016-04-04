@@ -1,5 +1,6 @@
 package com.estsoft.mysite.web.action.user;
 
+import com.estsoft.mysite.web.action.board.WriteAction;
 import com.estsoft.web.action.Action;
 import com.estsoft.web.action.ActionFactory;
 

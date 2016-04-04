@@ -27,7 +27,7 @@ public class ModifyAction implements Action {
 		
 		
 		UserVo vo = new UserVo();
-			
+		
 			vo.setNo(no);
 			vo.setName(name);
 			vo.setGender(gender);

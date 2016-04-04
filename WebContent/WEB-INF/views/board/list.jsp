@@ -15,7 +15,7 @@
 		</c:import>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="" method="post">
+				<form id="search_form" action="/mysite/board" method="post">
 					<input type="text" id="kwd" name="kwd" value=""> <input
 						type="submit" value="찾기">
 				</form>
@@ -53,6 +53,20 @@
 						<td><a href="" class="del">삭제</a></td>
 					</tr>
 				</table>
+				
+				<!-- page 부분 복사  select부분 해결해야해!!!!!!-->
+				<div class="pager">
+					<ul>
+						<li><a href="">◀</a></li>
+						<li><a href="">1</a></li>
+						<li class="selected">2</li>
+						<li><a href="">3</a></li>
+						<li><a href="">4</a></li>
+						<li><a href="">5</a></li>
+						<li><a href="">▶</a></li>
+					</ul>
+				</div>
+				
 				<div class="bottom">
 					<a href="" id="new-book">글쓰기</a>
 				</div>

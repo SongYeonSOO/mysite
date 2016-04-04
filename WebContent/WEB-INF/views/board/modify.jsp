@@ -15,7 +15,13 @@
 		</c:import>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="">
+				<form class="board-form" method="post" action="/mysite/board">
+
+
+
+<!-- no: number CHECK!!!!!! -->
+					<input type="hidden" name="a" value="view?no=${requestScope.vo.no}">
+
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>
