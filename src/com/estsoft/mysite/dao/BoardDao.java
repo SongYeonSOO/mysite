@@ -58,7 +58,7 @@ public class BoardDao {
 				boardVo.setOrder_no(order_no);
 				boardVo.setDepth(depth);
 				boardVo.setHit(hit + 1);
-				UpdateHit(boardVo);
+				UpdateHit(no);
 			}
 
 		} catch (SQLException e) {
@@ -100,7 +100,7 @@ public class BoardDao {
 	}
 
 	// Hit count증가 -> page 읽기 시 자동으로 증가함
-	private void UpdateHit(BoardVo vo) {
+	private void UpdateHit(Long no) {
 		BoardVo boardVo = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -108,11 +108,11 @@ public class BoardDao {
 			conn = dbConnection.getConnection();
 
 			// 검색기능까지 한번에 해결하자 . content의 내용에 뭐가 들었을까!
-			String sql = "UPDATE b.hit=b.hit+1 FROM board b WHERE b.no = ?";
+			String sql = "UPDATE board b SET b.hit=b.hit+1 WHERE b.no = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, vo.getNo());
+			pstmt.setLong(1, no);
 
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 
