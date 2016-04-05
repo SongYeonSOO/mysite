@@ -25,7 +25,6 @@ public class WriteAction implements Action {
 		// 로그인된 회원정보 받아오기
 		UserVo uservo = (UserVo) session.getAttribute("authUser");
 
-		if (uservo != null) {
 			// write execute!
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
@@ -35,10 +34,9 @@ public class WriteAction implements Action {
 			vo.setContent(content);
 			vo.setUser_no(uservo.getNo());
 			vo.setUser_name(uservo.getName());
-			System.out.println("BoardVo: " + vo);
 			BoardDao dao = new BoardDao(new MySQLWebDBConnection());
 			dao.insert(vo);
-		}
+
 		WebUtil.redirect(request, response, "/mysite/board");
 	}
 

@@ -31,7 +31,7 @@ public class BoardDao {
 			conn = dbConnection.getConnection();
 
 			// 검색기능까지 한번에 해결하자 . content의 내용에 뭐가 들었을까!
-			String sql = "SELECT b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit FROM board b,user u WHERE b.no = ? and b.user_no = u.no";
+			String sql = "SELECT b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit, b.user_no FROM board b,user u WHERE b.no = ? and b.user_no = u.no";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, no);
 
@@ -47,6 +47,7 @@ public class BoardDao {
 				Long order_no = rs.getLong(6);
 				Long depth = rs.getLong(7);
 				Long hit = rs.getLong(8);
+				Long user_no = rs.getLong(9);
 
 				boardVo = new BoardVo();
 				boardVo.setNo(no);
@@ -59,6 +60,7 @@ public class BoardDao {
 				boardVo.setDepth(depth);
 				boardVo.setHit(hit + 1);
 				UpdateHit(no);
+				boardVo.setUser_no(user_no);
 			}
 
 		} catch (SQLException e) {
@@ -151,7 +153,7 @@ public class BoardDao {
 			conn = dbConnection.getConnection();
 
 //			if (title1 == null && content1 == null) {
-				String sql = "SELECT b.no, b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit FROM board b,user u WHERE b.user_no = u.no";
+				String sql = "SELECT b.no, b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit, b.user_no FROM board b,user u WHERE b.user_no = u.no ORDER BY b.group_no DESC, b.order_no";
 				pstmt = conn.prepareStatement(sql);
 
 				rs = pstmt.executeQuery(sql);
@@ -166,6 +168,7 @@ public class BoardDao {
 					Long order_no = rs.getLong(7);
 					Long depth = rs.getLong(8);
 					Long hit = rs.getLong(9);
+					Long user_no = rs.getLong(10);
 
 					boardVo = new BoardVo();
 					boardVo.setNo(no);
@@ -177,7 +180,7 @@ public class BoardDao {
 					boardVo.setOrder_no(order_no);
 					boardVo.setDepth(depth);
 					boardVo.setHit(hit);
-
+					boardVo.setUser_no(user_no);
 					list.add(boardVo);
 
 				}
@@ -354,7 +357,7 @@ public class BoardDao {
 			conn = dbConnection.getConnection();
 
 			// 게시글 수정
-			String sql = "UPDATE board SET title=?, content=? WHERE no=? AND user_no= ?";
+			String sql = "UPDATE board b SET b.title=?, b.content=?, b.reg_date=now() WHERE b.no=? AND b.user_no= ?";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -364,6 +367,8 @@ public class BoardDao {
 			pstmt.setLong(4, vo.getUser_no());
 
 			pstmt.executeUpdate();
+					
+			
 		} catch (SQLException e) {
 
 			e.printStackTrace();

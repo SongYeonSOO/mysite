@@ -24,26 +24,26 @@ public class BoardModifyAction implements Action {
 		UserVo uservo = (UserVo) session.getAttribute("authUser");
 
 		Long no = Long.parseLong(request.getParameter("no"));
-		
-		/////어떻게 할것인가?
-		
-		
-		// 로그인 하지 않은 사용자
-		if (uservo != null) {
 
-			String title = request.getParameter("title");
-			String content = request.getParameter("content");
-			Long user_no = uservo.getNo();
-			
-			BoardVo vo = new BoardVo();
-			vo.setTitle(title);
-			vo.setContent(content);
-			vo.setUser_no(user_no);
-			vo.setNo(no);
+		BoardVo vo = new BoardVo();
 
-			BoardDao dao = new BoardDao(new MySQLWebDBConnection());
-			dao.ModifyUpdate(vo);
-		}
-		WebUtil.redirect(request, response, "/mysite/board?a=view&no="+no);
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		
+		System.out.println("title: "+title);
+		System.out.println("content: "+content);
+		
+		Long user_no = uservo.getNo();
+
+		vo.setNo(no);
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setUser_no(user_no);
+
+		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
+		dao.ModifyUpdate(vo);
+
+		WebUtil.redirect(request, response, "/mysite/board?a=view&no="+ no);
+
 	}
 }

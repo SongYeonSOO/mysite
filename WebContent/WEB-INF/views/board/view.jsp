@@ -31,14 +31,21 @@
 					<tr>
 						<td class="label">내용</td>
 						<td>
-							<div class="view-content">
-								${vo.content}
-							</div>
+							<div class="view-content">${vo.content}</div>
 						</td>
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="/mysite/board">글목록</a> <a href="/mysite/board?a=boardmodifyform">글수정</a><a href="/mysite/board?a=writeform">답글</a>
+					<a href="/mysite/board">글목록</a>
+					
+					<c:if test="${vo.user_no==sessionScope.authUser.no}">
+
+						<a href="/mysite/board?a=boardmodifyform&no=${vo.no}">글수정</a>
+					</c:if>
+					
+					<c:if test="${sessionScope.authUser!= null}">
+					<a href="/mysite/board?a=writeform&no=${vo.no}">답글</a>
+					</c:if>
 				</div>
 			</div>
 		</div>

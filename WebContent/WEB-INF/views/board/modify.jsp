@@ -21,24 +21,20 @@
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="/mysite/board">
-
-
-
-<!-- no: number CHECK!!!!!! -->
-					<input type="hidden" name="a" value="view?no=${requestScope.vo.no}">
-
+					<input type="hidden" name="a" value="boardmodify"> 
+					<input type="hidden" name="no" value="${vo.no}">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>
 						</tr>
 						<tr>
 							<td class="label">제목</td>
-							<td><input type="text" name="title" value=""></td>
+							<td><input type="text" name="title" value="${vo.title}"></td>
 						</tr>
+
 						<tr>
 							<td class="label">내용</td>
-							<td><textarea id="content" name="content"> ${requestScope.vo.content}
-							</textarea></td>
+							<td><textarea id="content" name="content">${vo.content}</textarea></td>
 						</tr>
 					</table>
 					<div class="bottom">

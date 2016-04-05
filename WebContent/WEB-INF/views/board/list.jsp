@@ -41,10 +41,15 @@
 							<td>${vo.user_name}</td>
 							<td>${vo.hit}</td>
 							<td>${vo.reg_date}</td>
-							<td><a href="/mysite/board?a=delete&no=${vo.no}" class="del">삭제</a></td>
+
+							<c:if test="${vo.user_no==sessionScope.authUser.no}">
+
+									<td><a href="/mysite/board?a=delete&no=${vo.no}"
+										class="del">삭제</a></td>
+								</c:if>
 						</tr>
-						
-						</c:forEach>
+
+					</c:forEach>
 				</table>
 
 				<!-- page 부분 복사  select부분 해결해야해!!!!!!-->
@@ -60,9 +65,17 @@
 					</ul>
 				</div>
 
-				<div class="bottom">
-					<a href="/mysite/board?a=writeform" id="new-book">글쓰기</a>
-				</div>
+				<c:choose>
+					<c:when test='${empty authUser}'>
+					</c:when>
+					<c:otherwise>
+
+						<div class="bottom">
+							<a href="/mysite/board?a=writeform" id="new-book">글쓰기</a>
+						</div>
+					</c:otherwise>
+				</c:choose>
+
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/include/navigation.jsp">
