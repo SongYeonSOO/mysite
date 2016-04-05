@@ -30,11 +30,20 @@ public class WriteAction implements Action {
 			String content = request.getParameter("content");
 
 			BoardVo vo = new BoardVo();
+			BoardDao dao = new BoardDao(new MySQLWebDBConnection());
+
+			//답글
+			if(request.getParameter("no")!=null){
+				Long no =Long.parseLong(request.getParameter("no"));
+				vo=dao.view(no,false);
+				vo.setNo(null);
+			}
+			
 			vo.setTitle(title);
 			vo.setContent(content);
 			vo.setUser_no(uservo.getNo());
 			vo.setUser_name(uservo.getName());
-			BoardDao dao = new BoardDao(new MySQLWebDBConnection());
+		
 			dao.insert(vo);
 
 		WebUtil.redirect(request, response, "/mysite/board");

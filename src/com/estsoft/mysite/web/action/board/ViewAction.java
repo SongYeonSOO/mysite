@@ -22,7 +22,7 @@ public class ViewAction implements Action {
 
 
 		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
-		BoardVo vo = dao.view(no);
+		BoardVo vo = dao.view(no,true);
 
 		request.setAttribute("vo", vo);
 		WebUtil.forward(request, response, "/WEB-INF/views/board/view.jsp");

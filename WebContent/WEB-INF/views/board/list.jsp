@@ -33,35 +33,59 @@
 						<th>&nbsp;</th>
 					</tr>
 
-					<c:set var="count" value="${fn.length(list) }" />
+					<!-- 				<c:set var="count" value="${fn.length(list) }" />  -->
 					<c:forEach items="${list}" var="vo" varStatus="status">
 						<tr>
-							<td>${status.index}</td>
-							<td><a href="/mysite/board?a=view&no=${vo.no}">${vo.title}</a></td>
-							<td>${vo.user_name}</td>
-							<td>${vo.hit}</td>
-							<td>${vo.reg_date}</td>
+							<c:choose>
+								<c:when test="${vo.depth==0}">
+									<td>${requestScope.boardno-status.index}</td>
+									<td style="text-align: left; padding-left: 0px"><a
+										href="/mysite/board?a=view&no=${vo.no}">${vo.title} // ${ requestScope.count }</a></td>
+									<td>${vo.user_name}</td>
+									<td>${vo.hit}</td>
+									<td>${vo.reg_date}</td>
+								</c:when>
+								<c:otherwise>
+									<td>${requestScope.boardno-status.index}</td>
+									<td style="text-align:left; padding-left:${vo.depth*20}px"><img
+										src="${pageContext.request.contextPath}/assets/images/reply.png"><a
+										href="/mysite/board?a=view&no=${vo.no}">${vo.title}</a></td>
+									<td>${vo.user_name}</td>
+									<td>${vo.hit}</td>
+									<td>${vo.reg_date}</td>
 
-							<c:if test="${vo.user_no==sessionScope.authUser.no}">
+								</c:otherwise>
+							</c:choose>
+							<td><c:if test="${vo.user_no==sessionScope.authUser.no}">
 
-									<td><a href="/mysite/board?a=delete&no=${vo.no}"
-										class="del">삭제</a></td>
-								</c:if>
+									<a href="/mysite/board?a=delete&no=${vo.no}" class="del">삭제</a>
+								</c:if></td>
 						</tr>
 
 					</c:forEach>
 				</table>
-
-				<!-- page 부분 복사  select부분 해결해야해!!!!!!-->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li><a href="">4</a></li>
-						<li><a href="">5</a></li>
-						<li><a href="">▶</a></li>
+
+						<c:if test="${pageinfo.currentpage > 5}">
+							<li><a href="/mysite/board?page=${pageinfo.beginpage-1}">◀</a></li>
+						</c:if>
+						<c:forEach begin="${pageinfo.beginpage}" end="${pageinfo.maxpage}"
+							var="viewpage">
+							<c:choose>
+							<c:when test="${viewpage==pageinfo.currentpage}">
+							<li class="selected"><a href="/mysite/board?page=${viewpage}">${viewpage}</a></li>
+							</c:when>
+							<c:otherwise>
+							<li><a href="/mysite/board?page=${viewpage}">${viewpage}</a></li>
+							</c:otherwise>
+							</c:choose>
+
+						</c:forEach>
+						<c:if test="${pageinfo.totalpage != pageinfo.maxpage}">
+							<li><a href="/mysite/board?page=${pageinfo.maxpage+1}">▶</a></li>
+						</c:if>
+
 					</ul>
 				</div>
 

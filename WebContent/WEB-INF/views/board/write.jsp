@@ -21,7 +21,7 @@
 			<div id="board">
 				<form class="board-form" method="post" action="/mysite/board">
 					<input type="hidden" name="a" value="write">				
-					<c:if test="${vo.no}!=null">
+					<c:if test="${not empty vo.no}">
 					<input type="hidden" name="no" value="${vo.no}">
 					</c:if>>
 					<table class="tbl-ex">

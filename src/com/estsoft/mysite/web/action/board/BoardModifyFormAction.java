@@ -29,7 +29,7 @@ public class BoardModifyFormAction implements Action {
 		System.out.println("no: " + no);
 
 		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
-		BoardVo vo = dao.view(no);
+		BoardVo vo = dao.view(no,false);
 		request.setAttribute("vo", vo);
 		WebUtil.forward(request, response, "/WEB-INF/views/board/modify.jsp");
 

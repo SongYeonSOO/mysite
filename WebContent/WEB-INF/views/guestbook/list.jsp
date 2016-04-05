@@ -35,21 +35,26 @@
 						</tr>
 					</table>
 				</form>
+
 				<ul>
-					<li>
-						<table>
-							<tr>
-								<td>[4]</td>
-								<td>안대혁</td>
-								<td>2015-11-10 11:22:30</td>
-								<td><a href="">삭제</a></td>
-							</tr>
-							<tr>
-								<td colspan=4>안녕하세요. ^^;<br> 하하하하
-								</td>
-							</tr>
-						</table> <br>
-					</li>
+					<li><c:set var="count" value="${fn.length(list) }" /> <c:forEach
+							items="${list}" var="vo" varStatus="status">
+
+							<table>
+								<tr>
+									<td>[${count-status.index}]</td>
+									<td>${vo.name}</td>
+									<td>${vo.reg_date}</td>
+									<td><a href="/mysite/guestbook?a=deleteform&id=${vo.no}">삭제</a></td>
+								</tr>
+								<tr>
+									<td colspan=4>${vo.message}</td>
+								</tr>
+
+							</table>
+							<br>
+
+						</c:forEach></li>
 				</ul>
 			</div>
 		</div>

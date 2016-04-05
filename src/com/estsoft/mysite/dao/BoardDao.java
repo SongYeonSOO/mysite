@@ -4,14 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.estsoft.db.DBConnection;
-import com.estsoft.db.MySQLWebDBConnection;
 import com.estsoft.mysite.vo.BoardVo;
-import com.estsoft.mysite.vo.UserVo;
 
 public class BoardDao {
 	private DBConnection dbConnection;
@@ -21,7 +18,7 @@ public class BoardDao {
 	}
 
 	// 게시글 보자
-	public BoardVo view(Long no) {
+	public BoardVo view(Long no,boolean isview) {
 		BoardVo boardVo = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -58,8 +55,10 @@ public class BoardDao {
 				boardVo.setGroup_no(group_no);
 				boardVo.setOrder_no(order_no);
 				boardVo.setDepth(depth);
+				if(isview == true){
 				boardVo.setHit(hit + 1);
 				UpdateHit(no);
+				}
 				boardVo.setUser_no(user_no);
 			}
 
@@ -103,7 +102,6 @@ public class BoardDao {
 
 	// Hit count증가 -> page 읽기 시 자동으로 증가함
 	private void UpdateHit(Long no) {
-		BoardVo boardVo = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -142,8 +140,48 @@ public class BoardDao {
 		}
 	}
 
+	public Long Count(){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Long count=null;
+		try {
+				conn = dbConnection.getConnection();
+			
+				String sql = "SELECT COUNT(*) FROM board";
+			
+				pstmt = conn.prepareStatement(sql);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()){
+					count= rs.getLong(1);
+			}
+				
+		} catch (SQLException ex) {
+					System.out.println("error:" + ex);
+				} finally {
+					try {
+						if (rs != null) {
+							rs.close();
+						}
+						if (pstmt != null) {
+							pstmt.close();
+						}
+						if (conn != null) {
+							conn.close();
+						}
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
+
+				return count;
+
+			}
+	
 	// 게시판 리스트를 만들자
-	public List<BoardVo> SearchList(String title1, String content1) {
+	public List<BoardVo> SearchList(String kwd, Long page) {
 		List<BoardVo> list = new ArrayList<BoardVo>();
 		BoardVo boardVo = null;
 		Connection conn = null;
@@ -151,13 +189,21 @@ public class BoardDao {
 		ResultSet rs = null;
 		try {
 			conn = dbConnection.getConnection();
-
+			
 //			if (title1 == null && content1 == null) {
-				String sql = "SELECT b.no, b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit, b.user_no FROM board b,user u WHERE b.user_no = u.no ORDER BY b.group_no DESC, b.order_no";
+				String sql = "SELECT b.no, b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit, b.user_no "
+						+ " FROM board b,user u "
+						+ " WHERE b.user_no = u.no AND (title like '%" + kwd + "%' OR content like '%"+ kwd+"%' )"
+						+ " ORDER BY b.group_no DESC, b.order_no"
+						+ " LIMIT ?, 5";
+			
+				System.out.println(sql);
 				pstmt = conn.prepareStatement(sql);
-
-				rs = pstmt.executeQuery(sql);
-
+				
+				pstmt.setLong(1, (Long)(page-1)*5);
+				
+				rs = pstmt.executeQuery();
+				
 				while (rs.next()) {
 					Long no = rs.getLong(1);
 					String title = rs.getString(2);
@@ -252,7 +298,7 @@ public class BoardDao {
 			// Group number가 같고 Order number가 크거나 같은 게시글의 order num과 depth를
 			// 증가시켜서
 			// 기존 게시글의 순서를 맞춰준다.
-			String sql = "UPDATE board SET order_no=order_no+1, depth=depth+1 WHERE group_no=? and order_no>=?";
+			String sql = "UPDATE board SET order_no=order_no+1 WHERE group_no=? and order_no>?";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, vo.getGroup_no());
@@ -298,9 +344,9 @@ public class BoardDao {
 			//****************************check!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 			
-//			if(vo.getOrder_no() == null){
+			if(vo.getOrder_no() == null){
 				//새글
-			String sql = "INSERT INTO board VALUES(null, ?, ?, now(), ?, (select ifnull( max( group_no ), 0 ) + 1  from board as b), 1, 0, 1)";
+			String sql = "INSERT INTO board VALUES(null, ?, ?, now(), ?, (select ifnull( max( group_no ), 0 ) + 1  from board as b), 1, 0, 0)";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getTitle());
@@ -308,19 +354,20 @@ public class BoardDao {
 			pstmt.setLong(3, vo.getUser_no());
 
 
-//			}else{
-//				//답글
-//				String sql = "INSERT INTO board VALUES(null, ?, ?, now(), ?, ?, ?, ?, 1)";
-//
-//				pstmt = conn.prepareStatement(sql);
-//				pstmt.setString(1, vo.getTitle());
-//				pstmt.setString(2, vo.getContent());
-//				pstmt.setLong(3, vo.getUser_no());
-//				pstmt.setLong(4, vo.getGroup_no());
-//				pstmt.setLong(5, vo.getOrder_no());
-//				pstmt.setLong(6, vo.getDepth());
-//
-//			}
+			}else{
+				//답글			
+				updateRe(vo);
+				String sql = "INSERT INTO board VALUES(null, ?, ?, now(), ?, ?, ?, ?, 0)";
+
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, vo.getTitle());
+				pstmt.setString(2, vo.getContent());
+				pstmt.setLong(3, vo.getUser_no());
+				pstmt.setLong(4, vo.getGroup_no());
+				pstmt.setLong(5, vo.getOrder_no()+1);
+				pstmt.setLong(6, vo.getDepth()+1);
+
+			}
 
 			pstmt.executeUpdate();
 
