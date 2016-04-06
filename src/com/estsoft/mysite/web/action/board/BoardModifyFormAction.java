@@ -22,11 +22,10 @@ public class BoardModifyFormAction implements Action {
 		HttpSession session = request.getSession();
 		// 로그인된 회원정보 받아오기
 		UserVo uservo = (UserVo) session.getAttribute("authUser");
-		System.out.println("userVo: " + uservo);
+//		System.out.println("userVo: " + uservo);
 
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/modify.jsp");
 		Long no = Long.parseLong(request.getParameter("no"));
-		System.out.println("no: " + no);
+//		System.out.println("no: " + no);
 
 		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
 		BoardVo vo = dao.view(no,false);

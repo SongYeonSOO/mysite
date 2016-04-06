@@ -60,6 +60,7 @@ public class BoardDao {
 				UpdateHit(no);
 				}
 				boardVo.setUser_no(user_no);
+				System.out.println("BOARDVO :"+boardVo);
 			}
 
 		} catch (SQLException e) {
