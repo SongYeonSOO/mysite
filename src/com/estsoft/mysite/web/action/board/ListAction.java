@@ -9,6 +9,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.estsoft.db.MySQLWebDBConnection;
 import com.estsoft.mysite.dao.BoardDao;
@@ -23,6 +24,7 @@ public class ListAction implements Action {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String kwd = request.getParameter("kwd");
@@ -41,7 +43,7 @@ public class ListAction implements Action {
 		
 		BoardDao dao = new BoardDao(new MySQLWebDBConnection());
 		Long beginpage = currentpage - ((currentpage-1)%COUNT_PAGE);
-		Long totalpage = (long) Math.ceil(dao.Count()/(float)COUNT_PAGE);
+		Long totalpage = (long) Math.ceil(dao.Count(kwd)/(float)COUNT_PAGE);
 		Long maxpage = null;
 		if(totalpage>=beginpage+COUNT_PAGE-1){
 			maxpage = beginpage+COUNT_PAGE-1;
@@ -49,11 +51,10 @@ public class ListAction implements Action {
 			maxpage = totalpage;
 		}
 		
-		
-		Long boardno = dao.Count()-(currentpage-1)*COUNT_PAGE;
+		Long boardno = dao.Count(kwd)-(currentpage-1)*COUNT_PAGE;
 		request.setAttribute("boardno", boardno);
 		
-		
+
 		
 		Map<String, Long> pageinfo = new HashMap<String, Long>();
 		pageinfo.put("beginpage", beginpage);
@@ -67,10 +68,12 @@ public class ListAction implements Action {
 		vo.setContent(content);
 		
 		List<BoardVo> list = dao.SearchList(kwd, currentpage);
-		
 		//이 리스트가 search 결과다
 		request.setAttribute("list", list);
 		request.setAttribute("count", list.size());
+		
+		//kwd를 계속 사용할 것!
+		request.setAttribute("kwd",kwd);
 		WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
 	}
 

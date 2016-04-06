@@ -68,22 +68,22 @@
 					<ul>
 
 						<c:if test="${pageinfo.currentpage > 5}">
-							<li><a href="/mysite/board?page=${pageinfo.beginpage-1}">◀</a></li>
+							<li><a href="/mysite/board?page=${pageinfo.beginpage-1}&kwd=${kwd}">◀</a></li>
 						</c:if>
 						<c:forEach begin="${pageinfo.beginpage}" end="${pageinfo.maxpage}"
 							var="viewpage">
 							<c:choose>
 							<c:when test="${viewpage==pageinfo.currentpage}">
-							<li class="selected"><a href="/mysite/board?page=${viewpage}">${viewpage}</a></li>
+							<li class="selected"><a href="/mysite/board?page=${viewpage}&kwd=${kwd}">${viewpage}</a></li>
 							</c:when>
 							<c:otherwise>
-							<li><a href="/mysite/board?page=${viewpage}">${viewpage}</a></li>
+							<li><a href="/mysite/board?page=${viewpage}&kwd=${kwd}">${viewpage}</a></li>
 							</c:otherwise>
 							</c:choose>
 
 						</c:forEach>
 						<c:if test="${pageinfo.totalpage != pageinfo.maxpage}">
-							<li><a href="/mysite/board?page=${pageinfo.maxpage+1}">▶</a></li>
+							<li><a href="/mysite/board?page=${pageinfo.maxpage+1}&kwd=${kwd}">▶</a></li>
 						</c:if>
 
 					</ul>

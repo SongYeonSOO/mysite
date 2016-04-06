@@ -42,7 +42,7 @@
 
 							<table>
 								<tr>
-									<td>[${count-status.index}]</td>
+									<td>${requestScope.listsize-status.index}</td>
 									<td>${vo.name}</td>
 									<td>${vo.reg_date}</td>
 									<td><a href="/mysite/guestbook?a=deleteform&id=${vo.no}">삭제</a></td>

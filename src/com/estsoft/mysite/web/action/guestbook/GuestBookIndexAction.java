@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.estsoft.db.MySQLWebDBConnection;
+import com.estsoft.mysite.dao.BoardDao;
 import com.estsoft.mysite.dao.GuestBookDao;
 import com.estsoft.mysite.vo.GuestBookVo;
 import com.estsoft.web.WebUtil;
@@ -21,7 +22,9 @@ public class GuestBookIndexAction implements Action {
 		GuestBookDao dao = new GuestBookDao(new MySQLWebDBConnection());
 		List<GuestBookVo> list = dao.getList();
 		request.setAttribute("list", list);
-
+		
+		request.setAttribute("listsize", list.size());
+		
 	//	RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/guestbook/list.jsp");
 		
 		WebUtil.forward(request, response, "/WEB-INF/views/guestbook/list.jsp");

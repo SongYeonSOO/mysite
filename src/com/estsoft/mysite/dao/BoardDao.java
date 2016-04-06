@@ -141,7 +141,7 @@ public class BoardDao {
 		}
 	}
 
-	public Long Count(){
+	public Long Count(String kwd){
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -149,7 +149,8 @@ public class BoardDao {
 		try {
 				conn = dbConnection.getConnection();
 			
-				String sql = "SELECT COUNT(*) FROM board";
+				String sql = "SELECT COUNT(*) FROM board "
+						+ "WHERE title like '%"+kwd+"%' OR content like '%"+kwd+"%'";
 			
 				pstmt = conn.prepareStatement(sql);
 				
@@ -191,13 +192,12 @@ public class BoardDao {
 		try {
 			conn = dbConnection.getConnection();
 			
-//			if (title1 == null && content1 == null) {
 				String sql = "SELECT b.no, b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit, b.user_no "
 						+ " FROM board b,user u "
 						+ " WHERE b.user_no = u.no AND (title like '%" + kwd + "%' OR content like '%"+ kwd+"%' )"
 						+ " ORDER BY b.group_no DESC, b.order_no"
 						+ " LIMIT ?, 5";
-			
+
 				System.out.println(sql);
 				pstmt = conn.prepareStatement(sql);
 				
@@ -231,41 +231,10 @@ public class BoardDao {
 					list.add(boardVo);
 
 				}
-//			} 
-//			else {
-//				String sql = "SELECT b.no, b.title, b.content, b.reg_date, u.name, b.group_no, b.order_no, b.depth, b.hit FROM board b,user u WHERE  title like %?% OR content like %?% AND b.user_no = u.no";
-//
-//				pstmt = conn.prepareStatement(sql);
-//				pstmt.setString(1, title1);
-//				pstmt.setString(2, content1);
-//
-//				rs = pstmt.executeQuery(sql);
-//
-//				while (rs.next()) {
-//					Long no = rs.getLong(1);
-//					String title = rs.getString(2);
-//					String content = rs.getString(3);
-//					String reg_date = rs.getString(4);
-//					Long user_no = rs.getLong(5);
-//					Long group_no = rs.getLong(6);
-//					Long order_no = rs.getLong(7);
-//					Long depth = rs.getLong(8);
-//					Long hit = rs.getLong(9);
-//
-//					boardVo = new BoardVo();
-//					boardVo.setNo(no);
-//					boardVo.setTitle(title);
-//					boardVo.setContent(content);
-//					boardVo.setReg_date(reg_date);
-//					boardVo.setUser_no(user_no);
-//					boardVo.setGroup_no(group_no);
-//					boardVo.setOrder_no(order_no);
-//					boardVo.setDepth(depth);
-//					boardVo.setHit(hit);
-//
-//					list.add(boardVo);
-//				}
-//}		
+				
+
+				
+	
 		} catch (SQLException ex) {
 			System.out.println("error:" + ex);
 		} finally {
@@ -341,13 +310,10 @@ public class BoardDao {
 
 			// null: no( auto inc ); db에서의 no는 view에서 중요하지 않음
 			// ?: title, content, user_no, group_no, order_no, depth, hit
-			
-			//****************************check!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-			
 			if(vo.getOrder_no() == null){
 				//새글
-			String sql = "INSERT INTO board VALUES(null, ?, ?, now(), ?, (select ifnull( max( group_no ), 0 ) + 1  from board as b), 1, 0, 0)";
+			String sql = "INSERT INTO board VALUES(null, ?, ?, now(), ?, (select ifnull( max( group_no ), 0 ) + 1 FROM board AS b), 1, 0, 0)";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getTitle());

@@ -69,7 +69,9 @@ public class GuestBookDao {
 			conn = dbConnection.getConnection();
 			stmt = conn.createStatement();
 
-			String sql = "SELECT no, name, DATE_FORMAT(reg_date, '%Y-%m-%d %h %i %s'), message FROM guestbook ORDER BY reg_date desc";
+			String sql = "SELECT no, name, DATE_FORMAT(reg_date, '%Y-%m-%d %h %i %s'), message "
+					+ "FROM guestbook "
+					+ "ORDER BY reg_date desc";
 			rs = stmt.executeQuery(sql);
 			
 			while (rs.next()) {
