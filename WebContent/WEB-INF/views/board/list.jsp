@@ -58,7 +58,7 @@
 							</c:choose>
 							<td><c:if test="${vo.user_no==sessionScope.authUser.no}">
 
-									<a href="/mysite/board?a=delete&no=${vo.no}" class="del">삭제</a>
+									<a href="/mysite/board?a=delete&no=${vo.no}&group_no=${vo.group_no}" class="del">삭제</a>
 								</c:if></td>
 						</tr>
 

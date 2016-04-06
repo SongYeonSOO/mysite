@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -371,7 +372,7 @@ public class BoardDao {
 			conn = dbConnection.getConnection();
 
 			// 게시글 수정
-			String sql = "UPDATE board b SET b.title=?, b.content=?, b.reg_date=now() WHERE b.no=? AND b.user_no= ?";
+						String sql = "UPDATE board AS b SET b.title=?, b.content=?, b.reg_date=now() WHERE b.no=? AND b.user_no= ?";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -412,18 +413,35 @@ public class BoardDao {
 	// 게시글 삭제 : 원글, 답글 모두 사용
 	public void delete(BoardVo vo) {
 		Connection conn = null;
+		Statement stmt = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
 			conn = dbConnection.getConnection();
 
+			System.out.println("gpno:"+vo.getGroup_no());
 			// 게시글 수정
-			String sql = "DELETE FROM board WHERE no= ? And user_no = ?";
+			
+			String sql2 = "select MAX(depth) FROM board WHERE group_no ="+vo.getGroup_no();
+			stmt = conn.createStatement();	
+			rs = stmt.executeQuery(sql2);
+			if(rs.next()){
+				Long mdepth = rs.getLong(1);
+				System.out.println(mdepth);
+				
+				String sql = "DELETE FROM board  WHERE no= ? And user_no = ? AND depth = ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, vo.getNo());
+				pstmt.setLong(2, vo.getUser_no());
+				pstmt.setLong(3, mdepth);
 
-			pstmt = conn.prepareStatement(sql);
+				pstmt.executeUpdate();
 
-			pstmt.setLong(1, vo.getNo());
-			pstmt.setLong(2, vo.getUser_no());
-			pstmt.executeUpdate();
+			}
+			
+			
+			
 
 		} catch (SQLException e) {
 

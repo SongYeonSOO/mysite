@@ -61,12 +61,14 @@ public class DeleteAction implements Action {
 		if (uservo != null) {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/list.jsp");
 
+			Long group_no = Long.parseLong(request.getParameter("group_no"));
 			Long no = Long.parseLong(request.getParameter("no"));
 			Long user_no = uservo.getNo();
 
 			BoardVo vo = new BoardVo();
 			vo.setNo(no);
 			vo.setUser_no(user_no);
+			vo.setGroup_no(group_no);
 			BoardDao dao = new BoardDao(new MySQLWebDBConnection());
 
 			dao.delete(vo);
