@@ -15,6 +15,74 @@ public class UserDao {
 		this.dbConnection = dbConnection;
 	}
 
+	
+	public UserVo get(String email) {
+		UserVo userVo = null;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = dbConnection.getConnection();
+		
+			//있는 지 확인용
+			String sql = "SELECT no, email FROM user WHERE email=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
+
+			rs = pstmt.executeQuery();
+
+			if(rs.next()){
+				Long no = rs.getLong(1);
+				String email1 = rs.getString(2);
+
+			    userVo = new UserVo();
+			    userVo.setNo(no);
+			    userVo.setEmail(email1);			    
+			}
+			
+			return userVo;
+			
+		} catch (SQLException e) {
+			
+			System.out.println("error:"+e);
+			e.printStackTrace();
+			
+			return null;
+			//여기서 return을 만나도 finally 진행가능
+			
+		} finally {
+			if(rs != null){
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+		}
+	}	
+	
 	// secutiry : authentication + permission(root mode etc...)
 	// authentication(합당한 사람이냐!)
 	public UserVo get(String email, String password) {
