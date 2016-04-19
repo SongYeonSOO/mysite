@@ -21,7 +21,7 @@ public class DeleteGuestBookFormAction implements Action {
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/guestbook/deleteform.jsp");
 
 		// 이게문제야!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		 Long no = Long.parseLong(request.getParameter("id"));
+		Long no = Long.parseLong(request.getParameter("id"));
 
 		GuestBookVo vo = new GuestBookVo();
 		vo.setNo(no);

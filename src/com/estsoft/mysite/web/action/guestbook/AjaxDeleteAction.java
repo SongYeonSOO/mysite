@@ -1,6 +1,9 @@
 package com.estsoft.mysite.web.action.guestbook;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,26 +12,29 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.estsoft.db.MySQLWebDBConnection;
 import com.estsoft.mysite.dao.GuestBookDao;
-import com.estsoft.mysite.vo.GuestBookVo;
-import com.estsoft.web.WebUtil;
+
 import com.estsoft.web.action.Action;
 
-public class DeleteGuestBookAction implements Action {
+import net.sf.json.JSONObject;
+
+public class AjaxDeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/guestbook/deleteform.jsp");
-
-		String passwd = request.getParameter("pass");
 		Long no = Long.parseLong(request.getParameter("no"));
+		String passwd = request.getParameter("pass"); // url에서 page(p)받아오자!
 
-		GuestBookVo vo = new GuestBookVo();
-		vo.setNo(no);
-		vo.setPasswd(passwd);
 		GuestBookDao dao = new GuestBookDao(new MySQLWebDBConnection());
-		dao.delete(vo);
+		int deletenum = dao.delete(no, passwd);
 
-		WebUtil.redirect(request, response, "/mysite/guestbook");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", "success");
+		map.put("data", deletenum);
+		JSONObject jsonObject = JSONObject.fromObject(map);
+		response.setContentType("application/json; charset=utf-8");
+		response.getWriter().print(jsonObject);
+
+		// web에서 test를 해보자!
 
 	}
 

@@ -22,13 +22,13 @@ public class GuestBookIndexAction implements Action {
 		GuestBookDao dao = new GuestBookDao(new MySQLWebDBConnection());
 		List<GuestBookVo> list = dao.getList();
 		request.setAttribute("list", list);
-		
+
 		request.setAttribute("listsize", list.size());
-		
-	//	RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/guestbook/list.jsp");
-		
+
+		// RequestDispatcher rd =
+		// request.getRequestDispatcher("/WEB-INF/views/guestbook/list.jsp");
+
 		WebUtil.forward(request, response, "/WEB-INF/views/guestbook/list.jsp");
-		
 
 	}
 

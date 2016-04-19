@@ -20,8 +20,8 @@
 			<div id="guestbook" class="delete-form">
 				<form method="post" action="/mysite/guestbook">
 					<input type="hidden" name="a" value="delete"> <input
-						type='hidden' name="no" value="${vo.no}"> <label>비밀번호</label> <input
-						type="password" name="pass"> <input type="submit"
+						type='hidden' name="no" value="${vo.no}"> <label>비밀번호</label>
+					<input type="password" name="pass"> <input type="submit"
 						value="확인">
 				</form>
 				<a href="/mysite/guestbook">방명록 리스트</a>

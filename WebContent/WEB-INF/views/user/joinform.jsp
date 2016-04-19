@@ -15,55 +15,55 @@
 </script>
 <script type="text/javascript">
 	$(function() {
-		
-		$("#join-form").submit(function(){
-			
-			//submit해도 무시당함
-			//return false;
+
+		$("#join-form").submit(function() {
+
+			//submit해도 무시당함  return false;
 			//return true; 일때만 가능
-			var name = $("#name").val();
+
 			//1. 이름 유효성 체크
-			if(name== ""){
+			var name = $("#name").val();
+			if (name == "") {
 				alert("이름 없다!");
 				$("#name").val("").focus();
 				return false;
 			}
+
 			//2. 이메일 유효성 체크
 			// 2-1. 입력체크
 			var email = $("#email").val();
-			if(email== ""){
+			if (email == "") {
 				alert("이메일 없다!");
 				$("#email").val("").focus();
 				return false;
 			}
 			//2-2. 이메일 중복 체크
-			if($("#img-checkemail").is(":visible")== false){
+			if ($("#img-checkemail").is(":visible") == false) {
 				alert("이메일 체크!!!!!!!");
 				return false;
 			}
-			
+
 			//3. 패스워드 유효성 체크
 			var passwd = $("#passwd").val();
-			if(passwd== ""){
+			if (passwd == "") {
 				alert("패스워드 없다!");
 				$("#passwd").val("").focus();
 				return false;
 			}
-			//"#agree-prov"
+
+			//4. checkbox 유효성 체크
 			var check = $("#agree-prov").is(":checked");
-			//$("input:checkbox[id='agree-prov']").is(":checked")
-			if(check == false){
+			if (check == false) {
 				alert("약관 동의!!!!!!!!!!");
 				return false;
 			}
 		});
-	$("#email").change(function(){
-		$("#btn-checkemail").show();
-		$("#img-checkemail").hide();
-		
-	});
+		$("#email").change(function() {
+			$("#btn-checkemail").show();
+			$("#img-checkemail").hide();
+
+		});
 		$("#btn-checkemail").click(function() {
-			//console.log("clicked");
 			var email = $("#email").val(); // value가 아니라 val이라는 ftn
 			if (email == "") {
 				return;
@@ -78,25 +78,25 @@
 				dataType : "json", //수신데이터타입
 				data : "", //post방식인 경우 서버에 전달할 parameter data
 
-				// contentType:""					//보내는 data가 json형식인 경우 반드시 post방식으로 보내야 한다 
+				// contentType:""					보내는 data가 json형식인 경우 반드시 post방식으로 보내야 한다 
 				//contentType:"application/json"
 				//data: "{"a":"checkemail",email:"kickscar@gmail.com"}""
 				// 성공 시 call-back
 				success : function(response) {
-					console.log(response.result+":"+response.data);
+					console.log(response.result + ":" + response.data);
 
 					if (response.result != "success") {
-						return ;
+						return;
 					}
-					
-					if(response.data == false){
+
+					if (response.data == false) {
 						alert("이미 존재하는 이메일 다른 거");
-						
+
 						//email칸 비우고 다시 입력할 수 있도록
 						$("#email").val("").focus();
 						return;
 					}
-					
+
 					//사용가능한 이메일
 					//api 함수의 특정 api를 보이는 것은 show를 이용함
 					$("#btn-checkemail").hide();
@@ -126,11 +126,11 @@
 						name="name" type="text" value=""> <label
 						class="block-label" for="email">이메일</label> <input id="email"
 						name="email" type="text" value=""> <input type="button"
-						value="id 중복체크" id="btn-checkemail"> 
-						<img id= "img-checkemail" style = "display:none;" src="/mysite/assets/images/check.png">
-						<label
-						class="block-label">패스워드</label> <input id="passwd" name="password"
-						type="password" value="">
+						value="id 중복체크" id="btn-checkemail"> <img
+						id="img-checkemail" style="display: none;"
+						src="/mysite/assets/images/check.png"> <label
+						class="block-label">패스워드</label> <input id="passwd"
+						name="password" type="password" value="">
 
 					<fieldset>
 						<legend>성별</legend>

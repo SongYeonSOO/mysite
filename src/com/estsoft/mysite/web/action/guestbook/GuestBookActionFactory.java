@@ -17,23 +17,38 @@ public class GuestBookActionFactory extends ActionFactory {
 	public Action getAction(String actionName) {
 		Action action = null;
 
-		if("insert".equals(actionName)){
+		if ("insert".equals(actionName)) {
 			action = new InsertGuestBookAction();
-		}
-		else if ("deleteform".equals(actionName)) {
+		} else if ("deleteform".equals(actionName)) {
 
 			action = new DeleteGuestBookFormAction();
 
 		} else if ("delete".equals(actionName)) {
-			
+
 			action = new DeleteGuestBookAction();
-			
+
+		} else if ("ajax".equals(actionName)) {
+
+			action = new AjaxAction();
+
+		} else if ("ajax-list".equals(actionName)) {
+
+			action = new AjaxListAction();
+
+		} else if ("ajax-insert".equals(actionName)) {
+
+			action = new AjaxInsertAction();
+
+		} else if ("ajax-delete".equals(actionName)) {
+
+			action = new AjaxDeleteAction();
+
 		} else {
-			
+
 			action = new GuestBookIndexAction();
-			
+
 		}
 		return action;
 	}
-	
+
 }

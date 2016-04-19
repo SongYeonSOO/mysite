@@ -36,8 +36,10 @@ public class CheckEmailAction implements Action {
 		 * 실패한 경우 fail msg data: 통신 데이터 }
 		 * 
 		 * 
-		 * // 내가 정하는 것! // 통신성공 case // email 사용가능 {result: "success" data:
-		 * true} // email 사용불가능 {result: "success" data: false}
+		 * // 내가 정하는 것! 
+		 *  통신성공 case 
+ 			email 사용가능 {result: "success" data:true} 
+ 			email 사용불가능 {result: "success" data: false}
 		 * 
 		 */
 
